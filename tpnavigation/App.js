@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, TextInput, Pressable, Image } from 'react-nativ
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView } from 'react-native-web';  
+import { SafeAreaView } from 'react-native';  
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useRoute } from '@react-navigation/native';
+import React from 'react';
 
 function ScreenHome1() {
   const navigation = useNavigation();
@@ -19,7 +21,7 @@ function ScreenHome1() {
       />
     <Text style={styles.textoPredeterminado}>¿Cómo te sentís el día de hoy :)?</Text>
     <TextInput style={styles.input} placeholder='Algo'/>
-    <Pressable style={styles.button} title="Comenzar" onPress={() => navigation.navigate('ScreenHome2')}><Text>Comenzar</Text></Pressable>
+    <Pressable style={styles.button} onPress={() => navigation.navigate('ScreenHome2')}><Text style={styles.textoPredeterminado}>Comenzar</Text></Pressable>
     </SafeAreaView>
   );
 }
@@ -28,33 +30,43 @@ function ScreenHome2() {
   const navigation = useNavigation();
   return(
     <SafeAreaView style={styles.home}>
-    <Text>Bienvenido!</Text>
-    <TextInput placeholder='Algo'/>
-    <Pressable title="Comenzar"><Text>Comenzar</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>Estoy probando navigation en RN!</Text>
+    <Text style={styles.textoPredeterminado}>This cat says hi!!</Text>
+    <Image style={styles.image}
+        source={{
+          uri: 'https://i.pinimg.com/736x/4a/58/c8/4a58c821206a4b7534de8b3d4ed6ac85.jpg',
+        }}
+      />
     </SafeAreaView>
   );
 }
 
 function ScreenContactar1() {
   const navigation = useNavigation();
+  const [nombre, setNombre] = React.useState('');
+  const [telefono, setTelefono] = React.useState('');
   return(
     <SafeAreaView style={styles.contactar}>
-    <Text>Contactar</Text>
-    <TextInput placeholder='Nombre'/>
-    <TextInput placeholder='Teléfono'/>
-    <Pressable title="Contactar" onPress={() => navigation.navigate('ScreenContactar2')}><Text>Contactar</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>Contactar</Text>
+    <TextInput style={styles.input} onChangeText={(text) => setNombre(text)} value={nombre} placeholder='Nombre'/>    
+    <TextInput style={styles.input} onChangeText={(text) => setTelefono(text)} value={telefono} placeholder='Teléfono'/>
+    <Pressable style={styles.button} title="Contactar" onPress={() => navigation.navigate('ScreenContactar2', {nombre, telefono})}><Text style={styles.textoPredeterminado}>Contactar</Text></Pressable>
     </SafeAreaView>
   );
 }
 
 function ScreenContactar2() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { nombre, telefono } = route.params;
   return(
     <SafeAreaView style={styles.contactar}>
-    <Text>Gracias nombre pronto nos contactaremos al teléfono teléfono</Text>
-    <TextInput placeholder='Nombre'/>
-    <TextInput placeholder='Teléfono'/>
-    <Pressable title="Contactar"><Text>Contactar</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>Gracias {nombre} pronto nos contactaremos al teléfono {telefono} :)</Text>
+        <Image style={styles.image}
+        source={{
+          uri: 'https://i.pinimg.com/736x/73/a3/c3/73a3c3954647105bdcfd695ff6b635f1.jpg'
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -63,11 +75,13 @@ function ScreenReserva1() {
   const navigation = useNavigation();
   return(
     <SafeAreaView style={styles.reserva}>
-    <Text>Reserva</Text>
-    <TextInput placeholder='Nombre'/>
-    <TextInput placeholder='Teléfono'/>
-    <TextInput placeholder='Cantidad de personas'/>
-    <Pressable title="Reservar" onPress={() => navigation.navigate('ScreenReserva2')}><Text>Reservar</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>Reserva</Text>
+    <TextInput style={styles.input} placeholder='Nombre'/>
+    <TextInput style={styles.input} placeholder='Teléfono'/>
+    <TextInput style={styles.input} placeholder='Cantidad de personas'/>
+    <Text style={styles.textoPredeterminado}>Restricciones alimentarias (en caso de no tener escribir "no")</Text>
+    <TextInput style={styles.input} placeholder='Restricciones'/>
+    <Pressable style={styles.button} onPress={() => navigation.navigate('ScreenReserva2')}><Text style={styles.textoPredeterminado}>Reservar</Text></Pressable>
     </SafeAreaView>
   );
 }
@@ -76,9 +90,8 @@ function ScreenReserva2() {
   const navigation = useNavigation();
   return(
     <SafeAreaView style={styles.reserva}>
-    <Text>Restricciones alimentarias (en caso de no tener escribir "no")</Text>
-    <TextInput placeholder='Restricciones'/>
-    <Pressable title="Finalizar"><Text>Finalizar</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>Pronto nos pondremos en contacto para establecer la fecha en base a las mesas :)</Text>
+    <Image style={styles.image} source={{uri: 'https://i.pinimg.com/736x/74/6a/db/746adbb898a813ea676ffccc1a03104c.jpg'}}/>
     </SafeAreaView>
   );
 }
@@ -87,9 +100,9 @@ function ScreenInformacion1() {
   const navigation = useNavigation();
   return(
     <SafeAreaView style={styles.informacion}>
-    <Text>Hay algo que te gustaría añadir a nuestro menú?</Text>
-    <Pressable title="Si" onPress={() => navigation.navigate('ScreenInformacion2')}><Text>Sí</Text></Pressable>
-    <Pressable title="No"><Text>No</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>Te gustaría que agreguemos sushi de chocolate al menú :D?</Text>
+    <Pressable style={styles.button} onPress={() => navigation.navigate('ScreenInformacion2')}><Text style={styles.textoPredeterminado}>Sí</Text></Pressable>
+    <Pressable style={styles.button} onPress={() => navigation.navigate('ScreenInformacion3')}><Text style={styles.textoPredeterminado}>No</Text></Pressable>
     </SafeAreaView>
   );
 }
@@ -97,12 +110,22 @@ function ScreenInformacion2() {
   const navigation = useNavigation();
   return(
     <SafeAreaView style={styles.informacion}>
-    <Text>¿Qué te gustaría añadir?</Text>
-    <TextInput placeholder='Nuevas comidas'/>
-    <Pressable title="Enviar"><Text>Enviar</Text></Pressable>
+    <Text style={styles.textoPredeterminado}>:D</Text>
+    <Image style={styles.image} source={{uri: 'https://i.pinimg.com/736x/7e/5f/4f/7e5f4f575eb03dcbc6c6ed7aa54f68c1.jpg'}}/>
     </SafeAreaView>
   );
 }
+
+function ScreenInformacion3() {
+  const navigation = useNavigation();
+  return(
+    <SafeAreaView style={styles.informacion}>
+    <Text style={styles.textoPredeterminado}>:(</Text>
+    <Image style={styles.image} source={{uri: 'https://i.pinimg.com/736x/79/74/54/797454db238f199a56efd3fa2580a77c.jpg'}}/>
+    </SafeAreaView>
+  );
+}
+
 
 const StackA = createNativeStackNavigator();
 const StackB = createNativeStackNavigator();
@@ -112,7 +135,7 @@ const StackD = createNativeStackNavigator();
 function StackANavigator(){
   return(
     <StackA.Navigator>
-      <StackA.Screen name="ScreenHome1" component={ScreenHome1}/>
+      <StackA.Screen name="ScreenHome" component={ScreenHome1}/>
       <StackA.Screen name="ScreenHome2" component={ScreenHome2}/>
     </StackA.Navigator>
   );
@@ -141,6 +164,7 @@ function StackDNavigator(){
     <StackD.Navigator>
       <StackD.Screen name="ScreenInformacion1" component={ScreenInformacion1}/>
       <StackD.Screen name="ScreenInformacion2" component={ScreenInformacion2}/>
+      <StackD.Screen name="ScreenInformacion3" component={ScreenInformacion3}/>
     </StackD.Navigator>
   );
 }
@@ -190,36 +214,45 @@ const styles = StyleSheet.create({
   },
   home: {
     flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'lightgreen'
   },
   contactar: {
     flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'yellow'
   },
   reserva: {
     flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'lightblue'
   },
   informacion: {
     flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'pink'
   },
   textoPredeterminado: {
     fontSize: 20,
-    margin: 5,
+    margin: 10,
     fontFamily: "sans-serif",
   },
    image: {
-    margin: 5,
-    width: 100,
-    height: 100
-   },
+    margin: 20,
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+     },
    input: {
     height: 50,
     backgroundColor: 'white',
-    width: 500,
+    width: '80%',
     borderWidth: 1.5,
-    margin: 1,
+    margin: 5,
     borderRadius: 10,
     borderColor: 'black',
     padding: 5,
@@ -228,6 +261,7 @@ const styles = StyleSheet.create({
    button: {
     width: 300,
     height: 50,
+    margin: 10,
     backgroundColor: 'white',
     borderRadius: 10,
     display: 'flex',
