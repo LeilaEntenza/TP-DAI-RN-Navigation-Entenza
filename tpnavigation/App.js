@@ -20,7 +20,7 @@ function ScreenHome1() {
         }}
       />
     <Text style={styles.textoPredeterminado}>¿Cómo te sentís el día de hoy :)?</Text>
-    <TextInput style={styles.input} placeholder='Algo'/>
+    <TextInput style={styles.input} placeholder='Cómo estás'/>
     <Pressable style={styles.button} onPress={() => navigation.navigate('ScreenHome2')}><Text style={styles.textoPredeterminado}>Comenzar</Text></Pressable>
     </SafeAreaView>
   );
